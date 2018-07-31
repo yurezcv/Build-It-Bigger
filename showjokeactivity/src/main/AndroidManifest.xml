@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ua.yurezcv.showjokeactivity">
+
+    <application>
+        <activity
+            android:name=".ShowJokeActivity"
+            android:label="@string/title_joke_activity" />
+    </application>
+
+</manifest>

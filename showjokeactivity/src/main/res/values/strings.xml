@@ -1,0 +1,4 @@
+<resources>
+    <string name="error_no_joke">You must\'ve forgotten to pass a joke in here</string>
+    <string name="title_joke_activity">Joke Activity</string>
+</resources>
