@@ -29,6 +29,7 @@
         android:layout_height="35dp"
         android:layout_below="@id/btn_display_joke" />
 
+<!--
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"
@@ -37,5 +38,6 @@
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id" />
+-->
 
 </RelativeLayout>

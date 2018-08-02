@@ -1,10 +1,11 @@
-package com.udacity.gradle.builditbigger;
+package com.udacity.gradle.builditbigger.free;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,15 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.udacity.gradle.builditbigger.EndpointsAsyncTask;
+import com.udacity.gradle.builditbigger.R;
 
 import ua.yurezcv.showjokeactivity.ShowJokeActivity;
 
 
 public class MainActivityFragment extends Fragment implements EndpointsAsyncTask.AsyncTaskCallback {
+
+    private static final String BUNDLE_KEY_JOKE = "bundle-key-joke";
 
     private Button mButton;
     private ProgressBar mProgressBar;
@@ -67,7 +72,20 @@ public class MainActivityFragment extends Fragment implements EndpointsAsyncTask
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        new EndpointsAsyncTask().execute(this);
+        if(savedInstanceState == null) {
+            new EndpointsAsyncTask().execute(this);
+        } else {
+            mJoke = savedInstanceState.getString(BUNDLE_KEY_JOKE);
+            activateViews();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(!TextUtils.isEmpty(mJoke)) {
+            outState.putString(BUNDLE_KEY_JOKE, mJoke);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -79,6 +97,10 @@ public class MainActivityFragment extends Fragment implements EndpointsAsyncTask
     @Override
     public void onAsyncTaskDone(String result) {
         mJoke = result;
+        activateViews();
+    }
+
+    private void activateViews() {
         mButton.setEnabled(true);
         mProgressBar.setVisibility(View.GONE);
         mTextView.setText(R.string.instructions);
