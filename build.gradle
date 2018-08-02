@@ -20,3 +20,24 @@ allprojects {
         google()
     }
 }
+
+
+task verifyProjectTask {
+    dependsOn(['startServer', 'runUnitTests', 'stopServer'])
+    doLast {
+        stopServer
+    }
+}
+
+task startServer {
+    dependsOn ':backend:appengineStart'
+}
+
+task runUnitTests {
+    dependsOn ':app:connectedAndroidTest'
+    mustRunAfter 'startServer'
+}
+
+task stopServer {
+    dependsOn ':backend:appengineStop'
+}
