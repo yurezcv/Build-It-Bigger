@@ -13,20 +13,20 @@
         android:id="@+id/instructions_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/loading" />
+        android:text="@string/instructions" />
 
     <Button
         android:id="@+id/btn_display_joke"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/instructions_text_view"
-        android:enabled="false"
         android:text="@string/button_text" />
 
     <ProgressBar
         android:id="@+id/pb_loading_jokes"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:visibility="gone"
         android:layout_below="@id/btn_display_joke" />
 
     <com.google.android.gms.ads.AdView

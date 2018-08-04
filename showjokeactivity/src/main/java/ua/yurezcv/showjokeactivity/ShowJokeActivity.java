@@ -18,13 +18,11 @@ public class ShowJokeActivity extends AppCompatActivity {
         TextView jokeTextView = findViewById(R.id.tv_joke);
 
         Intent intent = getIntent();
-        String joke = intent.getStringExtra(EXTRA_JOKE);
-
-        if(TextUtils.isEmpty(joke)) {
-            // nobody should use this Android library without passing an awesome joke
-            throw new RuntimeException(getString(R.string.error_no_joke));
-        } else {
+        if(intent.hasExtra(EXTRA_JOKE)) {
+            String joke = intent.getStringExtra(EXTRA_JOKE);
             jokeTextView.setText(joke);
+        } else {
+            throw new RuntimeException(getString(R.string.error_no_joke));
         }
     }
 }

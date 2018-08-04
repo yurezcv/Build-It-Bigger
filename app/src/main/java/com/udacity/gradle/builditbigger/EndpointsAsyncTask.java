@@ -38,7 +38,7 @@ public class EndpointsAsyncTask extends AsyncTask<EndpointsAsyncTask.AsyncTaskCa
 
         // make the load a bit longer to actually see the ProgressBar
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

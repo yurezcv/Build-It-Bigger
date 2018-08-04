@@ -46,7 +46,11 @@ public class MainActivityFragment extends Fragment implements EndpointsAsyncTask
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tellJoke();
+                if(TextUtils.isEmpty(mJoke)) {
+                    getJoke();
+                } else {
+                    startTellJokeActivity();
+                }
             }
         });
 
@@ -62,7 +66,11 @@ public class MainActivityFragment extends Fragment implements EndpointsAsyncTask
         return root;
     }
 
-    private void tellJoke() {
+    private void getJoke() {
+        new EndpointsAsyncTask().execute(this);
+    }
+
+    private void startTellJokeActivity() {
         Intent startJokeActivity = new Intent(getActivity(), ShowJokeActivity.class);
         startJokeActivity.putExtra(ShowJokeActivity.EXTRA_JOKE, mJoke);
         startActivity(startJokeActivity);
@@ -72,9 +80,7 @@ public class MainActivityFragment extends Fragment implements EndpointsAsyncTask
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(savedInstanceState == null) {
-            new EndpointsAsyncTask().execute(this);
-        } else {
+        if(savedInstanceState != null) {
             mJoke = savedInstanceState.getString(BUNDLE_KEY_JOKE);
             activateViews();
         }
@@ -90,14 +96,20 @@ public class MainActivityFragment extends Fragment implements EndpointsAsyncTask
 
     @Override
     public void onAsyncTaskBegins() {
-        mButton.setEnabled(false);
-        mProgressBar.setVisibility(View.VISIBLE);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgressBar.setVisibility(View.VISIBLE);
+                mTextView.setText(R.string.getting_jokes);
+            }
+        });
     }
 
     @Override
     public void onAsyncTaskDone(String result) {
         mJoke = result;
         activateViews();
+        startTellJokeActivity();
     }
 
     private void activateViews() {
