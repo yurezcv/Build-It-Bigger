@@ -38,7 +38,7 @@ public class EndpointsAsyncTask extends AsyncTask<EndpointsAsyncTask.AsyncTaskCa
 
         // make the load a bit longer to actually see the ProgressBar
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class EndpointsAsyncTask extends AsyncTask<EndpointsAsyncTask.AsyncTaskCa
         try {
             return myApiService.getJoke().execute().getJoke();
         } catch (IOException e) {
-            return e.getMessage();
+            return "#ERROR " + e.getMessage();
         }
     }
 

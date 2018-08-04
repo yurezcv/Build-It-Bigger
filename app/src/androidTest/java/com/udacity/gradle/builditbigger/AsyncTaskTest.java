@@ -6,28 +6,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 @RunWith(AndroidJUnit4.class)
 public class AsyncTaskTest {
-
-    @Test
-    public void testVerifyAsyncTaskViaCallback() {
-        new EndpointsAsyncTask().execute(new EndpointsAsyncTask.AsyncTaskCallback() {
-
-            @Override
-            public void onAsyncTaskBegins() {
-                // do nothing in the test
-            }
-
-            @Override
-            public void onAsyncTaskDone(String result) {
-                assertTrue(result.length() > 0);
-            }
-        });
-    }
 
     @Test
     public void testVerifyAsyncTaskViaResponse() throws InterruptedException {
@@ -37,8 +23,12 @@ public class AsyncTaskTest {
             @Override
             protected void onPostExecute(String result) {
                 assertNotNull(result);
-                assertTrue(result.length() > 0);
-                latch.countDown();
+                if(!result.contains("#ERROR")) {
+                    assertTrue(result.length() > 0);
+                    latch.countDown();
+                } else {
+                    fail(result);
+                }
             }
         };
 
@@ -46,16 +36,16 @@ public class AsyncTaskTest {
 
             @Override
             public void onAsyncTaskBegins() {
-                // do nothing for the test
+                // do nothing for the test, required only for UI changes
             }
 
             @Override
             public void onAsyncTaskDone(String result) {
-                // do nothing for the test
+                // do nothing for the test, required only for UI changes
             }
         };
 
         testTask.execute(callback);
-        latch.await();
+        latch.await(10, TimeUnit.SECONDS);
     }
 }
